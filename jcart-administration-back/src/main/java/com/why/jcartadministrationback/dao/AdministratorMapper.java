@@ -4,6 +4,8 @@ import com.why.jcartadministrationback.po.Administrator;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface AdministratorMapper {
     int deleteByPrimaryKey(Integer administratorId);
@@ -21,4 +23,6 @@ public interface AdministratorMapper {
     //    custom
 
     Administrator selectByUsername(@Param("username") String username);
+
+    int batchDelete(@Param("administratorIds") List<Integer> administratorIds);
 }

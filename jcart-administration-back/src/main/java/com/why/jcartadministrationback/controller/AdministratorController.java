@@ -4,6 +4,7 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.why.jcartadministrationback.constant.ClientExceptionConstant;
 import com.why.jcartadministrationback.dto.in.*;
 import com.why.jcartadministrationback.dto.out.*;
+import com.why.jcartadministrationback.enumeration.AdministratorStatus;
 import com.why.jcartadministrationback.exception.ClientException;
 import com.why.jcartadministrationback.po.Administrator;
 import com.why.jcartadministrationback.service.AdministratorService;
@@ -11,6 +12,7 @@ import com.why.jcartadministrationback.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -96,7 +98,20 @@ public class AdministratorController {
 
     @PostMapping("/create")
     public Integer create(@RequestBody AdministratorCreateInDTO administratorCreateInDTO){
-        return null;
+        Administrator administrator = new Administrator();
+        administrator.setUsername(administratorCreateInDTO.getUsername());
+        administrator.setRealName(administratorCreateInDTO.getRealName());
+        administrator.setEmail(administratorCreateInDTO.getEmail());
+        administrator.setStatus((byte) AdministratorStatus.Enable.ordinal());
+        administrator.setAvatarUrl(administratorCreateInDTO.getAvatarUrl());
+        administrator.setCreateTime(new Date());
+
+        String bcryptHashString = BCrypt.withDefaults().hashToString(12, administratorCreateInDTO.getPassword().toCharArray());
+        administrator.setEncryptedPassword(bcryptHashString);
+
+        Integer administratorId = administratorService.create(administrator);
+
+        return administratorId;
     }
 
     @PostMapping("/update")
