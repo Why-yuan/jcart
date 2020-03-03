@@ -1,21 +1,48 @@
 package com.why.jcartstoreback.controller;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
+import com.why.jcartstoreback.constant.ClientExceptionConstant;
 import com.why.jcartstoreback.dto.in.*;
 import com.why.jcartstoreback.dto.out.CustomerGetProfileOutDTO;
+import com.why.jcartstoreback.dto.out.CustomerLoginOutDTO;
+import com.why.jcartstoreback.exception.ClientException;
+import com.why.jcartstoreback.po.Customer;
+import com.why.jcartstoreback.service.CustomerService;
+import com.why.jcartstoreback.util.JWTUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
 
+    @Autowired
+    private CustomerService customerService;
+
+    @Autowired
+    private JWTUtil jwtUtil;
+
     @PostMapping("/register")
     public Integer register(@RequestBody CustomerRegisterInDTO customerRegisterInDTO){
-        return null;
+        Integer customerId = customerService.register(customerRegisterInDTO);
+        return customerId;
     }
 
     @GetMapping("/login")
-    public String login(CustomerLoginInDTO customerLoginInDTO){
-        return null;
+    public CustomerLoginOutDTO login(CustomerLoginInDTO customerLoginInDTO) throws ClientException {
+        Customer customer = customerService.getByUsername(customerLoginInDTO.getUsername());
+        if (customer == null){
+            throw new ClientException(ClientExceptionConstant.CUSTOMER_USERNAME_NOT_EXIST_ERRCODE, ClientExceptionConstant.CUSTOMER_USERNAME_NOT_EXIST_ERRMSG);
+        }
+        String encPwdDB = customer.getEncryptedPassword();
+        BCrypt.Result result = BCrypt.verifyer().verify(customerLoginInDTO.getPassword().toCharArray(), encPwdDB);
+
+        if (result.verified) {
+            CustomerLoginOutDTO customerLoginOutDTO = jwtUtil.issueToken(customer);
+            return customerLoginOutDTO;
+        }else {
+            throw new ClientException(ClientExceptionConstant.CUSTOMER_PASSWORD_INVALID_ERRCODE, ClientExceptionConstant.CUSTOMER_PASSWORD_INVALID_ERRMSG);
+        }
     }
 
     @GetMapping("/getProfile")
