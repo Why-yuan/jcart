@@ -4,8 +4,13 @@ public class AdministratorUpdateInDTO {
     private Integer administratorId;
     private String realName;
     private String password;
+    private String avatarUrl;
     private String email;
     private Byte status;
+
+    public AdministratorUpdateInDTO(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
 
     public Integer getAdministratorId() {
         return administratorId;
@@ -45,5 +50,13 @@ public class AdministratorUpdateInDTO {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }

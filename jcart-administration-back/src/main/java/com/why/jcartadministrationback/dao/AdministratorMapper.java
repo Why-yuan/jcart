@@ -1,5 +1,6 @@
 package com.why.jcartadministrationback.dao;
 
+import com.github.pagehelper.Page;
 import com.why.jcartadministrationback.po.Administrator;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -25,4 +26,6 @@ public interface AdministratorMapper {
     Administrator selectByUsername(@Param("username") String username);
 
     int batchDelete(@Param("administratorIds") List<Integer> administratorIds);
+
+    Page<Administrator> selectList();
 }
