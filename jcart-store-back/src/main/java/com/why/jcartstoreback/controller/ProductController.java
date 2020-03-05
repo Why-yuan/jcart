@@ -1,11 +1,11 @@
 package com.why.jcartstoreback.controller;
 
 import com.github.pagehelper.Page;
-import com.why.jcartstoreback.service.ProductService;
 import com.why.jcartstoreback.dto.in.ProductSearchInDTO;
 import com.why.jcartstoreback.dto.out.PageOutDTO;
 import com.why.jcartstoreback.dto.out.ProductListOutDTO;
 import com.why.jcartstoreback.dto.out.ProductShowOutDTO;
+import com.why.jcartstoreback.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +32,7 @@ public class ProductController {
 
     @GetMapping("/getById")
     public ProductShowOutDTO getById(@RequestParam Integer productId){
-        ProductShowOutDTO productShowOutDTO = productService.getById(productId);
+        ProductShowOutDTO productShowOutDTO = productService.getShowById(productId);
         return productShowOutDTO;
     }
 

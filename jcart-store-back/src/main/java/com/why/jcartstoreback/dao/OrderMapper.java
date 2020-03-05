@@ -1,7 +1,11 @@
 package com.why.jcartstoreback.dao;
 
+import com.github.pagehelper.Page;
 import com.why.jcartstoreback.po.Order;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface OrderMapper {
     int deleteByPrimaryKey(Long orderId);
 
@@ -14,4 +18,6 @@ public interface OrderMapper {
     int updateByPrimaryKeySelective(Order record);
 
     int updateByPrimaryKey(Order record);
+
+    Page<Order> selectByCustomerId(@Param("customerId") Integer customerId);
 }

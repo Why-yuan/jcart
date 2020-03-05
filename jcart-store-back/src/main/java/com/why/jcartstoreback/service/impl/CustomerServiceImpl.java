@@ -1,9 +1,9 @@
 package com.why.jcartstoreback.service.impl;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import com.why.jcartstoreback.enumeration.CustomerStatus;
 import com.why.jcartstoreback.dao.CustomerMapper;
 import com.why.jcartstoreback.dto.in.CustomerRegisterInDTO;
-import com.why.jcartstoreback.enumeration.CustomerStatus;
 import com.why.jcartstoreback.po.Customer;
 import com.why.jcartstoreback.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +13,7 @@ import java.util.Date;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
+
     @Autowired
     private CustomerMapper customerMapper;
 
@@ -45,5 +46,22 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer getByUsername(String username) {
         Customer customer = customerMapper.selectByUsername(username);
         return customer;
+    }
+
+    @Override
+    public Customer getById(Integer customerId) {
+        Customer customer = customerMapper.selectByPrimaryKey(customerId);
+        return customer;
+    }
+
+    @Override
+    public Customer getByEmail(String email) {
+        Customer customer = customerMapper.selectByEmail(email);
+        return customer;
+    }
+
+    @Override
+    public void update(Customer customer) {
+        customerMapper.updateByPrimaryKeySelective(customer);
     }
 }

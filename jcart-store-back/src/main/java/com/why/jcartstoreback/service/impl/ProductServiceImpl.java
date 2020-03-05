@@ -3,13 +3,13 @@ package com.why.jcartstoreback.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.why.jcartstoreback.service.ProductService;
 import com.why.jcartstoreback.dao.ProductDetailMapper;
 import com.why.jcartstoreback.dao.ProductMapper;
 import com.why.jcartstoreback.dto.out.ProductListOutDTO;
 import com.why.jcartstoreback.dto.out.ProductShowOutDTO;
 import com.why.jcartstoreback.po.Product;
 import com.why.jcartstoreback.po.ProductDetail;
+import com.why.jcartstoreback.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,13 @@ public class ProductServiceImpl implements ProductService {
     private ProductDetailMapper productDetailMapper;
 
     @Override
-    public ProductShowOutDTO getById(Integer productId) {
+    public Product getById(Integer productId) {
+        Product product = productMapper.selectByPrimaryKey(productId);
+        return product;
+    }
+
+    @Override
+    public ProductShowOutDTO getShowById(Integer productId) {
 
         Product product = productMapper.selectByPrimaryKey(productId);
         ProductDetail productDetail = productDetailMapper.selectByPrimaryKey(productId);

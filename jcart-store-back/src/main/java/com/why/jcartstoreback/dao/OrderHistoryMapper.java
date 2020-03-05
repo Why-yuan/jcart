@@ -1,7 +1,12 @@
 package com.why.jcartstoreback.dao;
 
 import com.why.jcartstoreback.po.OrderHistory;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+@Repository
 public interface OrderHistoryMapper {
     int deleteByPrimaryKey(Long orderHistoryId);
 
@@ -14,4 +19,7 @@ public interface OrderHistoryMapper {
     int updateByPrimaryKeySelective(OrderHistory record);
 
     int updateByPrimaryKey(OrderHistory record);
+
+
+    List<OrderHistory> selectByOrderId(@Param("orderId") Long orderId);
 }

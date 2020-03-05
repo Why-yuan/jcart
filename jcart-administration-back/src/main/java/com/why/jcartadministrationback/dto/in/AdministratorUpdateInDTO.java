@@ -8,9 +8,6 @@ public class AdministratorUpdateInDTO {
     private String email;
     private Byte status;
 
-    public AdministratorUpdateInDTO(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
 
     public Integer getAdministratorId() {
         return administratorId;
@@ -51,6 +48,7 @@ public class AdministratorUpdateInDTO {
     public void setStatus(Byte status) {
         this.status = status;
     }
+
 
     public String getAvatarUrl() {
         return avatarUrl;

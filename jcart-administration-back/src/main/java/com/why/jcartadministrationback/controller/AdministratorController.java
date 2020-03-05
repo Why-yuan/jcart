@@ -146,17 +146,16 @@ public class AdministratorController {
     public void update(@RequestBody AdministratorUpdateInDTO administratorUpdateInDTO){
         Administrator administrator = new Administrator();
         administrator.setAdministratorId(administratorUpdateInDTO.getAdministratorId());
-        administrator.setAvatarUrl(administratorUpdateInDTO.getAvatarUrl());
         administrator.setRealName(administratorUpdateInDTO.getRealName());
         administrator.setEmail(administratorUpdateInDTO.getEmail());
+        administrator.setAvatarUrl(administratorUpdateInDTO.getAvatarUrl());
         administrator.setStatus(administratorUpdateInDTO.getStatus());
         String password = administratorUpdateInDTO.getPassword();
-        if (password!=null && !!password.isEmpty()){
+        if (password != null && !password.isEmpty()){
             String bcryptHashString = BCrypt.withDefaults().hashToString(12, password.toCharArray());
             administrator.setEncryptedPassword(bcryptHashString);
         }
         administratorService.update(administrator);
-
     }
 
     @PostMapping("/delete")
