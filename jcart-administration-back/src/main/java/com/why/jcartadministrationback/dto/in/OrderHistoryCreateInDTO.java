@@ -6,13 +6,7 @@ public class OrderHistoryCreateInDTO {
     private String comment;
     private Boolean customerNotified;
 
-    public Long getOrderId() {
-        return orderId;
-    }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
 
     public Byte getOrderStatus() {
         return orderStatus;
@@ -36,5 +30,14 @@ public class OrderHistoryCreateInDTO {
 
     public void setCustomerNotified(Boolean customerNotified) {
         this.customerNotified = customerNotified;
+    }
+
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 }
