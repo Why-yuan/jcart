@@ -2,6 +2,7 @@ package com.why.jcartadministrationback.controller;
 
 import com.github.pagehelper.Page;
 import com.why.jcartadministrationback.dto.in.CustomerSearchInDTO;
+import com.why.jcartadministrationback.dto.in.CustomerSetStatusInDTO;
 import com.why.jcartadministrationback.dto.out.CustomerListOutDTO;
 import com.why.jcartadministrationback.dto.out.CustomerShowOutDTO;
 import com.why.jcartadministrationback.dto.out.PageOutDTO;
@@ -76,9 +77,9 @@ public class CustomerController {
         return customerShowOutDTO;
     }
 
-    @PostMapping("/disable")
-    public void disable(@RequestParam Integer customerId){
-
+    @PostMapping("/setStatus")
+    public void setStatus(@RequestBody CustomerSetStatusInDTO customerSetStatusInDTO){
+        customerService.setStatus(customerSetStatusInDTO);
     }
 
 }
