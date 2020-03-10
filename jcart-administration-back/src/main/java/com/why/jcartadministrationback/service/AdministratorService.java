@@ -10,6 +10,8 @@ public interface AdministratorService {
 
     Administrator getByUsername(String username);
 
+    Administrator getByEmail(String email);
+
     Integer create(Administrator administrator);
 
     void update(Administrator administrator);
@@ -19,4 +21,6 @@ public interface AdministratorService {
     void batchDelete(List<Integer> administratorIds);
 
     Page<Administrator> getList(Integer pageNum);
+
+
 }
