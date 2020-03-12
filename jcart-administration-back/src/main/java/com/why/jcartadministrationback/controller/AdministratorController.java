@@ -190,7 +190,7 @@ public class AdministratorController {
         administrator.setUsername(administratorCreateInDTO.getUsername());
         administrator.setRealName(administratorCreateInDTO.getRealName());
         administrator.setEmail(administratorCreateInDTO.getEmail());
-        administrator.setStatus((byte) AdministratorStatus.Enable.ordinal());
+        administrator.setStatus(administratorCreateInDTO.getStatus());
         administrator.setAvatarUrl(administratorCreateInDTO.getAvatarUrl());
         administrator.setCreateTime(new Date());
 
