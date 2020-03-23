@@ -7,10 +7,12 @@ import com.why.jcartadministrationback.dto.in.*;
 import com.why.jcartadministrationback.dto.out.*;
 import com.why.jcartadministrationback.enumeration.AdministratorStatus;
 import com.why.jcartadministrationback.exception.ClientException;
+import com.why.jcartadministrationback.mq.EmailEvent;
 import com.why.jcartadministrationback.po.Administrator;
 import com.why.jcartadministrationback.service.AdministratorService;
 import com.why.jcartadministrationback.util.EmailUtil;
 import com.why.jcartadministrationback.util.JWTUtil;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -50,7 +52,8 @@ public class AdministratorController {
 
     private Map<String, String> emailPwdResetCodeMap = new HashMap<>();
 
-
+    @Autowired
+    private RocketMQTemplate rocketMQTemplate;
     @GetMapping("/login")
     public AdministratorLoginOutDTO login(AdministratorLoginInDTO administratorLoginInDTO) throws ClientException {
         Administrator administrator = administratorService.getByUsername(administratorLoginInDTO.getUsername());
@@ -110,7 +113,12 @@ public class AdministratorController {
         byte[] bytes = secureRandom.generateSeed(3);
         String hex = DatatypeConverter.printHexBinary(bytes);
 
-        emailUtil.send(fromEmail, email, "jcart管理端管理员密码重置", hex);
+       // emailUtil.send(fromEmail, email, "jcart管理端管理员密码重置", hex);
+        EmailEvent emailEvent = new EmailEvent();
+        emailEvent.setToEmail(email);
+        emailEvent.setTitle("jcart管理端管理员密码重置");
+        emailEvent.setContent(hex);
+        rocketMQTemplate.convertAndSend("SendPwdResetByEmail", emailEvent);
 
         //todo send messasge to MQ
         emailPwdResetCodeMap.put(email, hex);
